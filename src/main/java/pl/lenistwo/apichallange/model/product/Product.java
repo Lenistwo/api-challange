@@ -1,10 +1,10 @@
 package pl.lenistwo.apichallange.model.product;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,8 +18,8 @@ public class Product {
     private String name;
     private String description;
     private double price;
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<Rating> rating;
+    @OneToMany(targetEntity = Rating.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
+    private List<Rating> rating = new ArrayList<>();
 
     public Product(String name, String description, double price, List<Rating> rating) {
         this.name = name;

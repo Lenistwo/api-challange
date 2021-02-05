@@ -1,20 +1,20 @@
 package pl.lenistwo.apichallange.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import pl.lenistwo.apichallange.model.product.Product;
+import pl.lenistwo.apichallange.model.request.ProductRequest;
 import pl.lenistwo.apichallange.model.response.PageableResponse;
 import pl.lenistwo.apichallange.model.response.PriceConvertResponse;
+import pl.lenistwo.apichallange.model.response.ProductResponse;
 import pl.lenistwo.apichallange.model.response.RatingResponse;
 import pl.lenistwo.apichallange.service.ProductService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController {
 
@@ -22,20 +22,35 @@ public class ProductController {
 
 
     @GetMapping
-    public PageableResponse<List<Product>> getAllProducts(@RequestParam(defaultValue = "5", required = false) int page,
+    public PageableResponse<List<Product>> getAllProducts(@RequestParam(defaultValue = "0", required = false) int page,
                                                           @RequestParam(defaultValue = "5", required = false) int pageSize,
                                                           @RequestParam(defaultValue = "sek", required = false) String currencyCode) {
         return productService.getAllProducts(currencyCode, page, pageSize);
     }
 
-    @GetMapping("/price")
-    public PriceConvertResponse toPrice(@RequestParam double price, @RequestParam String toCurrency){
-        return productService.convertPrice(price, toCurrency);
+    @GetMapping("/{productId}")
+    public ProductResponse getProductById(@PathVariable long productId){
+        return productService.getByProductId(productId);
+    }
+
+    @PutMapping
+    public ProductResponse updateProduct(@RequestBody Product product){
+        return productService.updateProduct(product);
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> createProduct(@RequestBody ProductRequest productRequest){
+        return productService.createProduct(productRequest);
     }
 
     @GetMapping("/product-rating")
     public RatingResponse getProductRating(@RequestParam long productId){
         return productService.getProductRating(productId);
+    }
+
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<Void> deleteProductById(@PathVariable long productId){
+        return productService.deleteProductById(productId);
     }
 }
 
