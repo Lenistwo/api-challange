@@ -21,7 +21,7 @@ public class CurrencyController {
 
     @GetMapping
     public PageableResponse<List<Currency>> findAllCurrencies(@RequestParam(defaultValue = "0", required = false) int page,
-                                                             @RequestParam(defaultValue = "5", required = false) int pageSize){
+                                                              @RequestParam(defaultValue = "5", required = false) int pageSize){
         return currencyService.getAllCurrencies(page, pageSize);
     }
 
@@ -36,7 +36,7 @@ public class CurrencyController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createCurrency(@RequestBody CurrencyRequest currencyRequest){
+    public CurrencyResponse createCurrency(@RequestBody CurrencyRequest currencyRequest){
         return currencyService.createCurrency(currencyRequest);
     }
 

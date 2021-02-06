@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import pl.lenistwo.apichallange.exception.CurrencyAlreadyExistsException;
 import pl.lenistwo.apichallange.exception.CurrencyNotFoundException;
 import pl.lenistwo.apichallange.model.pagination.Pagination;
 import pl.lenistwo.apichallange.model.product.Currency;
@@ -43,10 +44,11 @@ public class CurrencyService {
         return new CurrencyResponse(HttpStatus.OK.value(), currency);
     }
 
-    public ResponseEntity<Void> createCurrency(CurrencyRequest currencyRequest) {
+    public CurrencyResponse createCurrency(CurrencyRequest currencyRequest) {
+        if (currencyRepository.existsByCode(currencyRequest.getCode())) throw new CurrencyAlreadyExistsException();
         var currency = new Currency(currencyRequest.getCode(), currencyRequest.getCourse());
         currencyRepository.save(currency);
-        return ResponseEntity.ok().build();
+        return new CurrencyResponse(HttpStatus.OK.value(), currency);
     }
 
     public CurrencyResponse updateCurrency(Currency currency) {

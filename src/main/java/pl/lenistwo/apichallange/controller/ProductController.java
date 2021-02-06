@@ -22,14 +22,14 @@ public class ProductController {
 
 
     @GetMapping
-    public PageableResponse<List<Product>> getAllProducts(@RequestParam(defaultValue = "0", required = false) int page,
-                                                          @RequestParam(defaultValue = "5", required = false) int pageSize,
-                                                          @RequestParam(defaultValue = "sek", required = false) String currencyCode) {
+    public PageableResponse<List<Product>> findAllProducts(@RequestParam(defaultValue = "0", required = false) int page,
+                                                           @RequestParam(defaultValue = "5", required = false) int pageSize,
+                                                           @RequestParam(defaultValue = "sek", required = false) String currencyCode) {
         return productService.getAllProducts(currencyCode, page, pageSize);
     }
 
     @GetMapping("/{productId}")
-    public ProductResponse getProductById(@PathVariable long productId){
+    public ProductResponse findProductById(@PathVariable long productId){
         return productService.getByProductId(productId);
     }
 
@@ -39,12 +39,12 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createProduct(@RequestBody ProductRequest productRequest){
+    public ProductResponse createProduct(@RequestBody ProductRequest productRequest){
         return productService.createProduct(productRequest);
     }
 
     @GetMapping("/product-rating")
-    public RatingResponse getProductRating(@RequestParam long productId){
+    public RatingResponse findProductRating(@RequestParam long productId){
         return productService.getProductRating(productId);
     }
 

@@ -11,4 +11,6 @@ public interface CurrencyRepository extends JpaRepository<Currency, Long> {
 
     @Query("select course from Currency where code=:code")
     Double findByCode(@Param("code") String code);
+
+    boolean existsByCode(String code);
 }

@@ -55,9 +55,9 @@ public class ProductService {
         return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<Void> createProduct(ProductRequest productRequest) {
+    public ProductResponse createProduct(ProductRequest productRequest) {
         var product = new Product(productRequest.getName(), productRequest.getDescription(), productRequest.getPrice(), productRequest.getRating());
         productRepository.save(product);
-        return ResponseEntity.accepted().build();
+        return new ProductResponse(HttpStatus.ACCEPTED.value(), product);
     }
 }
