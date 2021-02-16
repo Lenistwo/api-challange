@@ -14,9 +14,9 @@ import static org.mockito.Mockito.when;
 class CurrencyServiceTest {
 
     private static final String NEK_CURRENCY = "nek";
-    public static final Double NEK_COURSE = 2.0;
-    public static final Double DEFAULT_PRICE = 1.0;
-    public static final int SUCCESS_CODE = 200;
+    private static final Double NEK_COURSE = 2.0;
+    private static final Double DEFAULT_PRICE = 1.0;
+    private static final int SUCCESS_CODE = 200;
 
     @InjectMocks
     private CurrencyService currencyService;
